@@ -11,8 +11,14 @@ class BookInfo(models.Model):
     bcomment = models.IntegerField(default=0, verbose_name='评论量')
     image = models.ImageField(upload_to='booktest', verbose_name='图片', null=True)
 
+    class Mate:
+        db_table = 'yb_books'  # 指定数据库表名
+        verbose_name = '图书'  # admin站点显示的名字
+        verbose_name_plural = verbose_name  # 复数显示的名字
+
     def __str__(self):
         return self.btitle
+
 
 class HeroInfo(models.Model):
     book = models.ForeignKey(BookInfo, on_delete=PROTECT, related_name='heroes', verbose_name='书名')
