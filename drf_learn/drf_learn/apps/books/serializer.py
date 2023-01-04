@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from books.models import BookInfo
 
 
 # 嵌套序列化器
@@ -49,3 +50,9 @@ class BookInfoSerializer(serializers.Serializer):
         if attrs['bread'] > attrs['bcomment']:
             raise serializers.ValidationError('阅读量大于评论量')
         return attrs
+
+    # --------------------------反序列化保存--------------------------- #
+    def create(self, validated_data):
+        # 保存数据
+        book = BookInfo.objects.create(**validated_data)
+        return book

@@ -28,7 +28,12 @@ class Books(View):
         ser.is_valid()  # 调用序列化器的验证方法
         print(ser.errors)  # 验证失败的提示
         print(ser.validated_data)  # 验证成功后的数据
-        return JsonResponse(ser.errors, safe=False)
+
+        # 保存数据
+        ser.save()
+
+        return JsonResponse(ser.validated_data, safe=False)
+
 
 
 class Book(View):
