@@ -21,8 +21,8 @@ class BookInfoSerializer(serializers.Serializer):
     id = serializers.IntegerField(label='ID', read_only=True)
     btitle = serializers.CharField(label='名称', max_length=20)
     bpub_data = serializers.DateField(label='发布日期', required=False)
-    bread = serializers.IntegerField(label='阅读量', required=False, read_only=True, max_value=2)  # 不进行验证和保存,直接返回
-    bcomment = serializers.IntegerField(label='评论量', required=False, write_only=True, max_value=10)  # 只进行验证和保存,不返回
+    bread = serializers.IntegerField(label='阅读量', required=False, max_value=2)  # read_only=True 不进行验证和保存,直接返回
+    bcomment = serializers.IntegerField(label='评论量', required=False, max_value=10)  # write_only只进行验证和保存,不返回
     image = serializers.ImageField(label='图片', required=False)
 
     # ----------------------------返回关联的外键数据------------------------- #
@@ -35,3 +35,17 @@ class BookInfoSerializer(serializers.Serializer):
 
     # 嵌套序列化器
     # heroes = HeroInfoSerializer(many=True)
+
+    # --------------------------自定义验证方法--------------------------- #
+    def validate_btitle(self, attrs):
+        """单一字段验证"""
+        if attrs == 'python':
+            raise serializers.ValidationError('书名不能是python')
+
+        return attrs
+
+    def validate(self, attrs):
+        """多个字段验证"""
+        if attrs['bread'] > attrs['bcomment']:
+            raise serializers.ValidationError('阅读量大于评论量')
+        return attrs
