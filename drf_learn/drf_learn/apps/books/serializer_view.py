@@ -2,7 +2,7 @@ import json
 
 from django.views import View
 from .models import BookInfo
-from .serializer import BookInfoSerializer
+from .serializer import BookInfoSerializer, BookModelSerializer
 from django.http import JsonResponse
 
 
@@ -56,6 +56,8 @@ class Book(View):
         except:
             return JsonResponse({'error': '信息错误'}, status=400)
         ser = BookInfoSerializer(instance=book, data=data_dict)
+        model_ser = BookModelSerializer(instance=book, data=data_dict)  # 模型类序列化器
+        model_ser.is_valid()
         ser.is_valid()
         # 更新数据
         ser.save()

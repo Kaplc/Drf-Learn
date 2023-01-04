@@ -74,3 +74,14 @@ class BookInfoSerializer(serializers.Serializer):
         instance.bread = validated_data['bread']
         instance.save()
         return instance
+
+
+class BookModelSerializer(serializers.ModelSerializer):
+    """模型类序列化器"""
+    bread = serializers.IntegerField(min_value=1)  # 指定字段后修改选项参数, 要手动再定义字段
+
+    class Meta:
+        model = BookInfo  # 指定模型类
+        fields = ('btitle', 'bread')  # 指定字段
+        # fields = '__all__'  # 所有字段
+        # exclude = ('btitle',)  # 取反
