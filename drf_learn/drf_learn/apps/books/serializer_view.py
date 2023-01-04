@@ -35,14 +35,29 @@ class Books(View):
         return JsonResponse(ser.validated_data, safe=False)
 
 
-
 class Book(View):
     """单一对象"""
 
-    def get(self, request):
+    def get(self, request, pk):
         # 查询单个图书对象
-        books = BookInfo.objects.get(id=1)
+        book = BookInfo.objects.get(id=pk)
         # 创建序列化器对象, 传入查询单个结果
-        ser = BookInfoSerializer(books)
+        ser = BookInfoSerializer(book)
         # ser.data--获取序列化完成的数据
         return JsonResponse(ser.data)
+
+    def put(self, request, pk):
+        # 获取数据并转成字典
+        data = request.body.decode()
+        data_dict = json.loads(data)
+        # 验证
+        try:
+            book = BookInfo.objects.get(id=pk)
+        except:
+            return JsonResponse({'error': '信息错误'}, status=400)
+        ser = BookInfoSerializer(instance=book, data=data_dict)
+        ser.is_valid()
+        # 更新数据
+        ser.save()
+
+        return JsonResponse(ser.validated_data)

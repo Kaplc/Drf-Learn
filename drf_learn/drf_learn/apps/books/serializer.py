@@ -22,7 +22,7 @@ class BookInfoSerializer(serializers.Serializer):
     id = serializers.IntegerField(label='ID', read_only=True)
     btitle = serializers.CharField(label='名称', max_length=20)
     bpub_data = serializers.DateField(label='发布日期', required=False)
-    bread = serializers.IntegerField(label='阅读量', required=False, max_value=2)  # read_only=True 不进行验证和保存,直接返回
+    bread = serializers.IntegerField(label='阅读量', required=False, max_value=10)  # read_only=True 不进行验证和保存,直接返回
     bcomment = serializers.IntegerField(label='评论量', required=False, max_value=10)  # write_only只进行验证和保存,不返回
     image = serializers.ImageField(label='图片', required=False)
 
@@ -47,12 +47,30 @@ class BookInfoSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         """多个字段验证"""
-        if attrs['bread'] > attrs['bcomment']:
-            raise serializers.ValidationError('阅读量大于评论量')
+        if attrs['bread'] < attrs['bcomment']:
+            raise serializers.ValidationError('评论量大于阅读量')
         return attrs
 
-    # --------------------------反序列化保存--------------------------- #
+    # --------------------------反序列化保存方法--------------------------- #
     def create(self, validated_data):
+        """
+        保存方法
+        :param validated_data: 要保存的数据对象
+        :return:
+        """
         # 保存数据
         book = BookInfo.objects.create(**validated_data)
         return book
+
+    # --------------------------反序列化更新方法--------------------------- #
+    def update(self, instance, validated_data):
+        """
+        更新方法
+        :param instance: 原数据对象
+        :param validated_data: 要更新的数据对象
+        :return:
+        """
+        instance.btitle = validated_data['btitle']
+        instance.bread = validated_data['bread']
+        instance.save()
+        return instance
