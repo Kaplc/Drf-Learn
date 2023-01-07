@@ -3,21 +3,21 @@ from django.views import View
 from .models import BookInfo
 from .serializer import BookInfoSerializer, BookModelSerializer
 from django.http import JsonResponse
-from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 
-class Books(APIView):
+class Books(GenericAPIView):
     """多个对象"""
+    queryset = books = BookInfo.objects.all()  # 先定义查询集
+    serializer_class = BookInfoSerializer  # 定义序列化器
 
     def get(self, request):
-
         # 查询所有图书对象
-        books = BookInfo.objects.all()
-        # 创建序列化器对象, 传入查询集
-        # many=True--多个对象返回
-        ser = BookInfoSerializer(books, many=True)
+        books = self.get_queryset()  # 获取指定查询集的数据
+        # 使用指定的序列化器对象, 传入查询集
+        ser = self.get_serializer(instance=books, many=True)
 
         # ser.data--获取序列化完成的数据
         return Response(ser.data)  # 使用DRF的Response
@@ -28,8 +28,8 @@ class Books(APIView):
         # data_dict = json.loads(data)
         # DRF获取前端数据
         data_dict = request.data
-        # 序列化器验证数据
-        ser = BookInfoSerializer(data=data_dict)
+        # 使用指定的序列化器对象, 传入数据
+        ser = self.get_serializer(data=data_dict)
         ser.is_valid()  # 调用序列化器的验证方法
         print(ser.errors)  # 验证失败的提示
         print(ser.validated_data)  # 验证成功后的数据
@@ -40,15 +40,17 @@ class Books(APIView):
         return Response(ser.validated_data)
 
 
-class Book(APIView):
+class Book(GenericAPIView):
     """单一对象"""
+    queryset = books = BookInfo.objects.all()  # 先定义查询集
+    serializer_class = BookInfoSerializer  # 定义序列化器
 
     def get(self, request, pk):
         print(request.query_params)  # 使用DRF获取参数
         # 查询单个图书对象
-        book = BookInfo.objects.get(id=pk)
+        book = self.get_object()  # 从定义的查询集中获取指定的数据对象
         # 创建序列化器对象, 传入查询单个结果
-        ser = BookInfoSerializer(book)
+        ser = self.get_serializer(instance=book)
         # ser.data--获取序列化完成的数据
         return Response(ser.data)
 
@@ -57,7 +59,7 @@ class Book(APIView):
         data_dict = request.data
         # 验证
         try:
-            book = BookInfo.objects.get(id=pk)
+            book = self.get_object()  # 从定义的查询集中获取指定的数据对象
         except:
             return Response({'error': '信息错误'}, status=400)
         ser = BookInfoSerializer(instance=book, data=data_dict)
