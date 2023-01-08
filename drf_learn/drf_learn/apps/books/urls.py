@@ -1,6 +1,5 @@
 from django.urls import re_path
-from . import serializer_view, api_view, generic_view, mixin_view
-
+from . import serializer_view, api_view, generic_view, mixin_view, child_view
 
 urlpatterns = [
     # 多对象
@@ -22,4 +21,9 @@ urlpatterns = [
     re_path(r'mxbooks$', mixin_view.Books.as_view()),
     # genericView单对象+mixin
     re_path(r'mxbook/(?P<pk>\d)$', mixin_view.Book.as_view()),
+
+    # genericView多对象+mixin集合子类
+    re_path(r'chbooks$', child_view.Books.as_view()),
+    # genericView单对象+mixin集合子类
+    re_path(r'chbook/(?P<pk>\d)$', child_view.Book.as_view()),
 ]
