@@ -1,10 +1,6 @@
-import json
-from django.views import View
 from .models import BookInfo
 from .serializer import BookInfoSerializer, BookModelSerializer
-from django.http import JsonResponse
 from rest_framework.generics import GenericAPIView
-from rest_framework.request import Request
 from rest_framework.response import Response
 
 
