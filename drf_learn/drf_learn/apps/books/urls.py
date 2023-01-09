@@ -53,4 +53,7 @@ urlpatterns = [
 # 自动生成路由
 router = SimpleRouter()  # 创建对象
 router.register('zdybooks', modelviewset.Books, basename='books')  # 路径+调用的方法+路由命名
+router.register('zdyffbooks', modelviewset.Books)
 urlpatterns += router.urls  # 自动生成的路由添加到路由列表
+print(urlpatterns)
+
