@@ -31,4 +31,6 @@ urlpatterns = [
     re_path(r'vsbooks$', viewset_view.Books.as_view({'get': 'list', 'post': 'create'})),
     # viewset
     re_path(r'vsbook/(?P<pk>\d)$', viewset_view.Book.as_view({'get': 'retrieve', 'put': 'updata'})),
+    # viewset自定义方法名匹配
+    re_path(r'vsbooks/test$', viewset_view.Books.as_view({'get': 'list', 'post': 'create', 'put': 'test'})),
 ]
