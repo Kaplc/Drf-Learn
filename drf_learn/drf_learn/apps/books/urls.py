@@ -1,4 +1,6 @@
 from django.urls import re_path
+from rest_framework.routers import SimpleRouter
+
 from .view import serializer_view, generic_view, child_view, mixin_view, api_view, viewset_view, genericViewset_view, \
     modelviewset
 
@@ -47,3 +49,8 @@ urlpatterns = [
     # modelviewset
     re_path(r'mdsook/(?P<pk>\d)$', modelviewset.Book.as_view({'get': 'retrieve', 'put': 'updata'})),
 ]
+
+# 自动生成路由
+router = SimpleRouter()  # 创建对象
+router.register('zdybooks', modelviewset.Books, basename='books')  # 路径+调用的方法+路由命名
+urlpatterns += router.urls  # 自动生成的路由添加到路由列表
