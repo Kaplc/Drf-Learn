@@ -1,5 +1,6 @@
 from django.urls import re_path
-from .view import serializer_view, generic_view, child_view, mixin_view, api_view, viewset_view
+from .view import serializer_view, generic_view, child_view, mixin_view, api_view, viewset_view, genericViewset_view, \
+    modelviewset
 
 urlpatterns = [
     # 多对象
@@ -35,9 +36,14 @@ urlpatterns = [
     re_path(r'vsbooks/test$', viewset_view.Books.as_view({'get': 'list', 'post': 'create', 'put': 'test'})),
 
     # genericviewset
-    re_path(r'gvsbooks$', viewset_view.Books.as_view({'get': 'list', 'post': 'create'})),
+    re_path(r'gvsbooks$', genericViewset_view.Books.as_view({'get': 'list', 'post': 'create'})),
     # genericviewset
-    re_path(r'gvsook/(?P<pk>\d)$', viewset_view.Book.as_view({'get': 'retrieve', 'put': 'updata'})),
+    re_path(r'gvsook/(?P<pk>\d)$', genericViewset_view.Book.as_view({'get': 'retrieve', 'put': 'updata'})),
     # genericviewset自定义方法名匹配
-    re_path(r'gvsbooks/test$', viewset_view.Books.as_view({'get': 'list', 'post': 'create', 'put': 'test'})),
+    re_path(r'gvsbooks/test$', genericViewset_view.Books.as_view({'get': 'list', 'post': 'create', 'put': 'test'})),
+
+    # modelviewset
+    re_path(r'mdbooks$', modelviewset.Books.as_view({'get': 'list', 'post': 'create'})),
+    # modelviewset
+    re_path(r'mdsook/(?P<pk>\d)$', modelviewset.Book.as_view({'get': 'retrieve', 'put': 'updata'})),
 ]
