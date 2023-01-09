@@ -1,6 +1,6 @@
-from .models import BookInfo
-from .serializer import BookInfoSerializer, BookModelSerializer
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from books.models import BookInfo
+from books.serializer import BookInfoSerializer, BookModelSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 
 class Books(ListCreateAPIView):

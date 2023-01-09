@@ -1,5 +1,12 @@
-from .models import BookInfo
-from .serializer import BookInfoSerializer, BookModelSerializer
+"""
+queryset = books = BookInfo.objects.all() --定义查询集
+serializer_class = BookInfoSerializer --定义序列化器
+self.get_queryset()  # 获取指定查询集的数据
+self.get_object()  # 从定义的查询集中获取指定的数据对象
+Response(ser.data) -- 序列化返回
+"""
+from books.models import BookInfo
+from books.serializer import BookInfoSerializer, BookModelSerializer
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 

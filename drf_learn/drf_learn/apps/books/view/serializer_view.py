@@ -1,8 +1,15 @@
+"""
+ser = BookInfoSerializer(books, many=True)--创建序列化器对象
+ser.is_valid()--调用序列化器验证
+ser.data--经过序列化器的数据
+ser.validated_data--验证完成的数据
+"""
+
 import json
 
 from django.views import View
-from .models import BookInfo
-from .serializer import BookInfoSerializer, BookModelSerializer
+from books.models import BookInfo
+from books.serializer import BookInfoSerializer, BookModelSerializer
 from django.http import JsonResponse
 
 

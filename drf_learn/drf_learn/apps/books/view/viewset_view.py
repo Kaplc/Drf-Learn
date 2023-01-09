@@ -1,17 +1,17 @@
-import json
-from django.views import View
-from .models import BookInfo
-from .serializer import BookInfoSerializer, BookModelSerializer
-from django.http import JsonResponse
-from rest_framework.views import APIView
-from rest_framework.request import Request
+"""
+viewset-继承APIView
+可以自定义方法名
+"""
+from rest_framework.viewsets import ViewSet
+from books.models import BookInfo
+from books.serializer import BookInfoSerializer, BookModelSerializer
 from rest_framework.response import Response
 
 
-class Books(APIView):
+class Books(ViewSet):
     """多个对象"""
 
-    def get(self, request):
+    def list(self, request):
 
         # 查询所有图书对象
         books = BookInfo.objects.all()
@@ -22,7 +22,7 @@ class Books(APIView):
         # ser.data--获取序列化完成的数据
         return Response(ser.data)  # 使用DRF的Response
 
-    def post(self, request):
+    def create(self, request):
         # 获取数据并转成字典
         # data = request.body.decode()
         # data_dict = json.loads(data)
@@ -40,10 +40,10 @@ class Books(APIView):
         return Response(ser.validated_data)
 
 
-class Book(APIView):
+class Book(ViewSet):
     """单一对象"""
 
-    def get(self, request, pk):
+    def retrieve(self, request, pk):
         print(request.query_params)  # 使用DRF获取参数
         # 查询单个图书对象
         book = BookInfo.objects.get(id=pk)
@@ -52,7 +52,7 @@ class Book(APIView):
         # ser.data--获取序列化完成的数据
         return Response(ser.data)
 
-    def put(self, request, pk):
+    def updata(self, request, pk):
         # 获取数据并转成字典
         data_dict = request.data
         # 验证

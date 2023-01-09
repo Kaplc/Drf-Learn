@@ -1,5 +1,14 @@
-from .models import BookInfo
-from .serializer import BookInfoSerializer, BookModelSerializer
+"""
+在GenericAPIView下使用
+CreateModelMixin, -- 添加 create(request)
+ListModelMixin, -- 查(多个) list(request)
+UpdateModelMixin, -- 更新 self.update(request, pk)
+DestroyModelMixin, -- 删除 self.destroy(request, pk)
+RetrieveModelMixin -- 查(单个) self.retrieve(request, pk)
+
+"""
+from books.models import BookInfo
+from books.serializer import BookInfoSerializer, BookModelSerializer
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, UpdateModelMixin, DestroyModelMixin, \
