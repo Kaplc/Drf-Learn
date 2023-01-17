@@ -12,6 +12,7 @@ class Books(ViewSet):
     """多个对象"""
 
     def list(self, request):
+
         # 查询所有图书对象
         books = BookInfo.objects.all()
         # 创建序列化器对象, 传入查询集

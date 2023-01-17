@@ -2,9 +2,9 @@
 继承genericview
 路由匹配跟viewset一样
 """
+import django_filters
 from books.models import BookInfo
 from books.serializer import BookInfoSerializer, BookModelSerializer
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -13,7 +13,7 @@ class Books(GenericViewSet):
     """多个对象"""
     queryset = books = BookInfo.objects.all()  # 先定义查询集
     serializer_class = BookInfoSerializer  # 定义序列化器
-
+    filterset_fields = ('btitle',)  # 设置过滤字段
     def list(self, request):
         # 查询所有图书对象
         books = self.get_queryset()  # 获取指定查询集的数据

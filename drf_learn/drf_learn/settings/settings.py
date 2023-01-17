@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     # books
     'books',
+    # 过滤字段
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -154,4 +156,8 @@ REST_FRAMEWORK = {
         'anon': '100/day',  # 匿名未认证用户
         'user': '200/day'  # 认证用户
     },
+
+    # 过滤字段
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+
 }

@@ -14,7 +14,10 @@ class Books(ModelViewSet):
     """多个对象"""
     permission_classes = (IsAuthenticated,)  # 设置权限
 
-    throttle_classes = (UserRateThrottle,)  # 设置限流  AnonRateThrottle限制所有匿名未认证用户，使用IP区分用户, UserRateThrottle限制认证用户，使用User id 来区分
+    throttle_classes = (UserRateThrottle,)  # 设置限流  AnonRateThrottle限制所有匿名未认证用户，使用IP区分用户,
+    # UserRateThrottle限制认证用户，使用User id 来区分
+
+    filterset_fields = ('btitle',)  # 设置过滤字段
 
     queryset = books = BookInfo.objects.all()  # 先定义查询集
     serializer_class = BookInfoSerializer  # 定义序列化器
