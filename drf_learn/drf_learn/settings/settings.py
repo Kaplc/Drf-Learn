@@ -30,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,25 +75,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'drf_learn.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'drf_learn',
-            'USER': 'root',
-            'PASSWORD': '111111',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'drf_learn',
+        'USER': 'root',
+        'PASSWORD': '111111',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     },
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -114,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -128,7 +124,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -138,3 +133,25 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --------------------------认证和权限(全局设置)--------------------------- #
+REST_FRAMEWORK = {
+    # 认证
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',  # 基本认证
+        'rest_framework.authentication.SessionAuthentication',  # session认证
+    ),
+    # 权限
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
+    # 限流
+    # 'DEFAULT_THROTTLE_CLASSES': (
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',  # 匿名未认证用户
+        'user': '200/day'  # 认证用户
+    },
+}
